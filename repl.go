@@ -25,7 +25,6 @@ func startRepl() {
 			fmt.Println("command not found")
 			continue
 		}
-		fmt.Print("im here")
 		cmd.callback()
 	}
 
