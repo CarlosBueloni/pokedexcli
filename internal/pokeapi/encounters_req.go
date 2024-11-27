@@ -11,6 +11,17 @@ func (c *Client) ListEncounters(location string) (EncountersResp, error) {
 	endpoint := "/location-area/" + location
 	fullUrl := baseURL + endpoint
 
+	dat, ok := c.cache.Get(fullUrl)
+	if ok {
+		//cache hit
+		encountersResp := EncountersResp{}
+		err := json.Unmarshal(dat, &encountersResp)
+		if err != nil {
+			return EncountersResp{}, err
+		}
+		return encountersResp, nil
+	}
+
 	req, err := http.NewRequest("GET", fullUrl, nil)
 	if err != nil {
 		return EncountersResp{}, err
@@ -26,7 +37,7 @@ func (c *Client) ListEncounters(location string) (EncountersResp, error) {
 		return EncountersResp{}, fmt.Errorf("bad status error: %v", resp.StatusCode)
 	}
 
-	dat, err := io.ReadAll(resp.Body)
+	dat, err = io.ReadAll(resp.Body)
 	if err != nil {
 		return EncountersResp{}, err
 	}
@@ -36,6 +47,9 @@ func (c *Client) ListEncounters(location string) (EncountersResp, error) {
 	if err != nil {
 		return EncountersResp{}, err
 	}
+
+	c.cache.Add(fullUrl, dat)
+
 	return encountersResp, nil
 
 }

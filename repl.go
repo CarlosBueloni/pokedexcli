@@ -25,7 +25,10 @@ func startRepl(c *Config) {
 			fmt.Println("command not found")
 			continue
 		}
-		arg := cleaned[1]
+		arg := ""
+		if len(cleaned) > 1 {
+			arg = cleaned[1]
+		}
 		err := cmd.callback(c, arg)
 		if err != nil {
 			fmt.Println(err)
