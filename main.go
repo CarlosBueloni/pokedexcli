@@ -1,6 +1,10 @@
 package main
 
-import "github.com/carlosbueloni/pokedexcli/internal/pokeapi"
+import (
+	"time"
+
+	"github.com/carlosbueloni/pokedexcli/internal/pokeapi"
+)
 
 type Config struct {
 	Next       *string
@@ -10,7 +14,7 @@ type Config struct {
 
 func main() {
 	conf := Config{
-		PokeClient: pokeapi.NewClient(),
+		PokeClient: pokeapi.NewClient(time.Hour),
 	}
 	startRepl(&conf)
 }

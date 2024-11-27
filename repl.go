@@ -25,7 +25,10 @@ func startRepl(c *Config) {
 			fmt.Println("command not found")
 			continue
 		}
-		cmd.callback(c)
+		err := cmd.callback(c)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 }
