@@ -25,11 +25,13 @@ func startRepl(c *Config) {
 			fmt.Println("command not found")
 			continue
 		}
-		arg := ""
+
+		args := []string{}
 		if len(cleaned) > 1 {
-			arg = cleaned[1]
+			args = cleaned[1:]
 		}
-		err := cmd.callback(c, arg)
+
+		err := cmd.callback(c, args...)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -40,7 +42,7 @@ func startRepl(c *Config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(c *Config, arg string) error
+	callback    func(c *Config, arg ...string) error
 }
 
 func getCommands() map[string]cliCommand {

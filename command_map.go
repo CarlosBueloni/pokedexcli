@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMap(c *Config, arg string) error {
+func commandMap(c *Config, args ...string) error {
 	resp, err := c.PokeClient.ListLocationAreas(c.Next)
 	if err != nil {
 		return err
@@ -21,7 +21,7 @@ func commandMap(c *Config, arg string) error {
 	return nil
 }
 
-func commandMapBack(c *Config, arg string) error {
+func commandMapBack(c *Config, args ...string) error {
 	if c.Previuous == nil {
 		return errors.New("you're on the first page")
 	}
