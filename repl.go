@@ -25,7 +25,8 @@ func startRepl(c *Config) {
 			fmt.Println("command not found")
 			continue
 		}
-		err := cmd.callback(c)
+		arg := cleaned[1]
+		err := cmd.callback(c, arg)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -36,7 +37,7 @@ func startRepl(c *Config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(c *Config) error
+	callback    func(c *Config, arg string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -60,6 +61,11 @@ func getCommands() map[string]cliCommand {
 			name:        "map back",
 			description: "displays the previous 20 locations",
 			callback:    commandMapBack,
+		},
+		"explore": {
+			name:        "explore",
+			description: "displays all pokemon on the area",
+			callback:    commandExplore,
 		},
 	}
 }
