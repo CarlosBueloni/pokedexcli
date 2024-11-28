@@ -7,14 +7,16 @@ import (
 )
 
 type Config struct {
-	Next       *string
-	Previuous  *string
-	PokeClient pokeapi.Client
+	Next          *string
+	Previuous     *string
+	PokeClient    pokeapi.Client
+	caughtPokemon map[string]pokeapi.PokemonResp
 }
 
 func main() {
 	conf := Config{
-		PokeClient: pokeapi.NewClient(time.Hour),
+		caughtPokemon: map[string]pokeapi.PokemonResp{},
+		PokeClient:    pokeapi.NewClient(time.Hour),
 	}
 	startRepl(&conf)
 }
